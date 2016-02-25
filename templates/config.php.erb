@@ -3,15 +3,12 @@
   // *** Database configuration (important!) ***
   // *******************************************
 
-  // File managed by Puppet.
-
-  //include_once('/etc/tt-rss/database.php');
-  define('DB_TYPE', <%= @dbtype -%>);
-  define('DB_HOST', <%= @dbserver -%>);
-  define('DB_PORT', <%= @dbport -%>);
-  define('DB_USER', <%= @dbuser -%>);
-  define('DB_NAME', <%= @dbname -%>);
-  define('DB_PASS', <%= @dbpass -%>);
+  define('DB_TYPE', '<%= scope['ttrss::dbtype'] %>'); // or mysql
+  define('DB_HOST', '<%= scope['ttrss::dbserver'] %>');
+  define('DB_USER', '<%= scope['ttrss::dbusername'] %>');
+  define('DB_NAME', '<%= scope['ttrss::dbname'] %>');
+  define('DB_PASS', '<%= scope['ttrss::dbpassword'] %>');
+  define('DB_PORT', ''); // usually 5432 for PostgreSQL, 3306 for MySQL
 
   define('MYSQL_CHARSET', 'UTF8');
   // Connection charset for MySQL. If you have a legacy database and/or experience
@@ -21,7 +18,7 @@
   // *** Basic settings (important!) ***
   // ***********************************
 
-  define('SELF_URL_PATH', '<%= @ttrsspath %>');
+  define('SELF_URL_PATH', '<%= scope['ttrss::ttrssurl'] %>');
   // Full URL of your tt-rss installation. This should be set to the
   // location of tt-rss directory, e.g. http://example.org/tt-rss/
   // You need to set this option correctly otherwise several features
@@ -34,7 +31,7 @@
   // Warning: changing this key will make your stored feed passwords impossible
   // to decrypt.
   
-  define('SINGLE_USER_MODE', <%= @single_user_mode -%>);
+  define('SINGLE_USER_MODE', <%= scope['ttrss::single_user_mode'] %>);
   // Operate in single user mode, disables all functionality related to
   // multiple users and authentication. Enabling this assumes you have
   // your tt-rss directory protected by other means (e.g. http auth).
@@ -59,11 +56,11 @@
   // then most probably you are using the CGI binary. If you are unsure what to 
   // put in here, ask your hosting provider.
 
-  define('LOCK_DIRECTORY', '/var/lib/tt-rss');
+  define('LOCK_DIRECTORY', 'lock');
   // Directory for lockfiles, must be writable to the user you run
   // daemon process or cronjobs under.
 
-  define('CACHE_DIR', '/var/cache/tt-rss');
+  define('CACHE_DIR', 'cache');
   // Local cache directory for RSS feed content.
 
   define('ICONS_DIR', "feed-icons");
@@ -107,13 +104,9 @@
   // Enable client PubSubHubbub support in tt-rss. When disabled, tt-rss
   // won't try to subscribe to PUSH feed updates.
 
-  // *********************
-  // *** Sphinx search ***
-  // *********************
-
-  define('SPHINX_ENABLED', false);
-  // Enable fulltext search using Sphinx (http://www.sphinxsearch.com)
-  // Please see http://tt-rss.org/wiki/SphinxSearch for more information.
+  // ****************************
+  // *** Sphinx search plugin ***
+  // ****************************
 
   define('SPHINX_SERVER', 'localhost:9312');
   // Hostname:port combination for the Sphinx server.
@@ -148,13 +141,6 @@
   // Default lifetime of a session (e.g. login) cookie. In seconds, 
   // 0 means cookie will be deleted when browser closes.
 
-  define('SESSION_CHECK_ADDRESS', 1);
-  // Check client IP address when validating session:
-  // 0 - disable checking
-  // 1 - check first 3 octets of an address (recommended)
-  // 2 - check first 2 octets of an address
-  // 3 - check entire address
-
   // *********************************
   // *** Email and digest settings ***
   // *********************************
@@ -184,15 +170,9 @@
   // *** Other settings (less important) ***
   // ***************************************
 
-  define('CHECK_FOR_NEW_VERSION', true);
-  // Check for new versions of tt-rss automatically.
-
-  define('DETECT_ARTICLE_LANGUAGE', true);
-  // Detect article language when updating feeds, presently this is only
-  // used for hyphenation. This may increase amount of CPU time used by 
-  // update processes, disable if necessary (i.e. you are being billed
-  // for CPU time).
-
+  define('CHECK_FOR_UPDATES', false);
+  // Check for updates automatically if running Git version
+ 
   define('ENABLE_GZIP_OUTPUT', false);
   // Selectively gzip output to improve wire performance. This requires
   // PHP Zlib extension on the server.
@@ -200,7 +180,7 @@
   // if you experience weird errors and tt-rss failing to start, blank pages
   // after login, or content encoding errors, disable it.
 
-  define('PLUGINS', 'auth_internal, note, updater');
+  define('PLUGINS', 'auth_internal, note');
   // Comma-separated list of plugins to load automatically for all users.
   // System plugins have to be specified here. Please enable at least one
   // authentication plugin here (auth_*).

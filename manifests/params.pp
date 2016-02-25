@@ -11,5 +11,6 @@ class ttrss::params {
   $webroot              = '/var/www/html'
   $dirname              = 'ttrss'
   $webserver_user       = 'nginx'
+  $webserver_group      = 'nginx'
 
 }

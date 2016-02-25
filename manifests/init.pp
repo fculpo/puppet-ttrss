@@ -14,12 +14,13 @@ class ttrss(
     $ttrssurl             = $::ttrss::params::ttrssurl,
     $webroot              = $::ttrss::params::webroot,
     $dirname              = $::ttrss::params::dirname,
-    $webserver_user       = $::ttrss::params::webserver_user
+    $webserver_user       = $::ttrss::params::webserver_user,
+    $webserver_group      = $::ttrss::params::webserver_group
 ) inherits ttrss::params {
 
   anchor { 'ttrss::begin':   } ->
   class  { 'ttrss::package': } ->
-  class  { 'ttrss::config':  }
+  class  { 'ttrss::config':  } 
   class  { 'ttrss::service': } ->
   anchor { 'ttrss::end':     }
 
