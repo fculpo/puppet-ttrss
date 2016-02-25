@@ -3,69 +3,59 @@
 #    This class should not be called directly.
 #
 
-class ttrss::config(
-    $dbname               = undef,
-    $dbusername           = undef,
-    $dbpassword           = undef,
-    $dbserver             = undef,
-    $dbtype               = undef,
-    $enable_update_daemon = $ttrss::params::enable_update_daemon,
-    $single_user_mode     = false,
-    $ttrsspath            = 'http://www.example.com/tt-rss',
-) inherits ttrss::params {
-  if $enable_update_daemon {
-    $update_daemon = 0
-  } else {
-    $update_daemon = 1
+class ttrss::config {
+
+  $dbname               = $::ttrss::dbname
+  $dbusername           = $::ttrss::dbusername
+  $dbpassword           = $::ttrss::dbpassword
+  $dbserver             = $::ttrss::dbserver
+  $dbtype               = $::ttrss::dbtype
+  $enable_update_daemon = $::ttrss::enable_update_daemon
+  $single_user_mode     = $::ttrss::single_user_mode
+  $ttrssurl             = $::ttrss::ttrssurl
+  $webroot              = $::ttrss::webroot
+  $dirname              = $::ttrss::dirname
+  $webserver_user       = $::ttrss::webserver_user
+
+  if ! $dbname {
+    fail('No database name specified.')
   }
 
-    if ! $dbname {
-        fail('No database name specified.')
-    }
+  if ! $dbusername {
+    fail('No database username specified.')
+  }
 
-    if ! $dbusername {
-        fail('No database username specified.')
-    }
+  if ! $dbpassword {
+    fail('No database password specified.')
+  }
 
-    if ! $dbpassword {
-        fail('No database password specified.')
-    }
+  if ! $dbserver {
+    fail('No database server specified.')
+  }
 
-    if ! $dbserver {
-        fail('No database server specified.')
-    }
+  case $dbtype {
+    'mysql': { $php_db_package = 'php-mysql' }
+    'pgsql': { $php_db_package = 'php-pgsql' }
+    default: { fail("Valid database backend required, found '${dbtype}'") }
+  }
 
-    case $dbtype {
-        'mysql': { $php_db_package = 'php5-mysql' }
-        'pgsql': { $php_db_package = 'php5-pgsql' }
-        default: { fail("Valid database backend required, found '${dbtype}'") }
-    }
+  file { "$webroot/$dirname/config.php":
+    ensure  => file,
+    content => template('ttrss/config.php.erb'),
+    mode    => '0644',
+    owner   => 'root',
+    group   => 'root',
+  }
 
-    file { '/etc/tt-rss/config.php':
-        ensure  => file,
-        content => template('ttrss/config.php.erb'),
-        mode    => '0644',
-        owner   => 'root',
-        group   => 'root',
-    }
+  file { "$webroot/$dirname/database.php":
+    ensure  => file,
+    content => template('ttrss/database.php.erb'),
+    mode    => '0640',
+    owner   => 'root',
+    group   => "$webserver_user",
+  }
 
-    file { '/etc/tt-rss/database.php':
-        ensure  => file,
-        content => template('ttrss/database.php.erb'),
-        mode    => '0640',
-        owner   => 'root',
-        group   => 'www-data',
-    }
-
-    file { '/etc/default/tt-rss':
-        ensure  => file,
-        content => template('ttrss/default/tt-rss.erb'),
-        mode    => '0644',
-        owner   => 'root',
-        group   => 'root',
-    }
-
-    package { $php_db_package:
-        ensure => 'present',
-    }
+  package { $php_db_package:
+    ensure => 'present',
+  }
 }

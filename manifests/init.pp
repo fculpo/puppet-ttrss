@@ -4,35 +4,24 @@
 #
 
 class ttrss(
-    $dbname               = undef,
-    $dbusername           = undef,
-    $dbpassword           = undef,
-    $dbserver             = undef,
-    $dbtype               = undef,
-    $enable_update_daemon = $ttrss::params::enable_update_daemon,
-    $single_user_mode     = false,
-    $ttrsspath            = 'http://www.example.com/tt-rss',
+    $dbname               = $::ttrss::params::dbname,
+    $dbusername           = $::ttrss::params::dbusername,
+    $dbpassword           = $::ttrss::params::dbpassword,
+    $dbserver             = $::ttrss::params::dbserver,
+    $dbtype               = $::ttrss::params::dbtype,
+    $enable_update_daemon = $::ttrss::params::enable_update_daemon,
+    $single_user_mode     = $::ttrss::params::single_user_mode,
+    $ttrssurl             = $::ttrss::params::ttrssurl,
+    $webroot              = $::ttrss::params::webroot,
+    $dirname              = $::ttrss::params::dirname,
+    $webserver_user       = $::ttrss::params::webserver_user
 ) inherits ttrss::params {
-  if ($::osfamily != 'Debian') {
-    fail("${::operatingsystem} not supported")
-  }
 
-  anchor { 'ttrss::begin': } ->
-  class { 'ttrss::package': } ->
-  class { 'ttrss::config':
-    dbname               => $dbname,
-    dbusername           => $dbusername,
-    dbpassword           => $dbpassword,
-    dbserver             => $dbserver,
-    dbtype               => $dbtype,
-    enable_update_daemon => $enable_update_daemon,
-    single_user_mode     => $single_user_mode,
-    ttrsspath            => $ttrsspath,
-  }
-  class { 'ttrss::service':
-    enable_update_daemon => $enable_update_daemon,
-  } ->
-  anchor { 'ttrss::end': }
+  anchor { 'ttrss::begin':   } ->
+  class  { 'ttrss::package': } ->
+  class  { 'ttrss::config':  }
+  class  { 'ttrss::service': } ->
+  anchor { 'ttrss::end':     }
 
   Anchor['ttrss::begin']  ~> Class['ttrss::service']
   Class['ttrss::package'] ~> Class['ttrss::service']

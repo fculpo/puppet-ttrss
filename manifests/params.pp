@@ -1,14 +1,15 @@
-# Default MoinMoin parameters for different operating systems.
 class ttrss::params {
-  case $::osfamily {
-    'Debian': {
-      $package  = 'tt-rss'
-    }
 
-    default: {
-      fail("${::osfamily} is not supported.")
-    }
-  }
+  $dbname               = 'ttrss'
+  $dbusername           = 'ttrss_user'
+  $dbpassword           =  undef
+  $dbserver             = '127.0.0.1'
+  $dbtype               = 'pgsql'
+  $enable_update_daemon = 'running'
+  $single_user_mode     = false
+  $ttrssurl             = undef
+  $webroot              = '/var/www/html'
+  $dirname              = 'ttrss'
+  $webserver_user       = 'nginx'
 
-  $enable_update_daemon = false
 }
