@@ -6,14 +6,13 @@ class ttrss::package {
 
   $webroot         = $::ttrss::webroot
   $dirname         = $::ttrss::dirname
-  $webfullpath     = "${webroot}/${dirname}"
   $webserver_user  = $::ttrss::webserver_user
   $webserver_group = $::ttrss::webserver_user
 
   vcsrepo { 'ttrss':
     ensure   => present,
     provider => git,
-    path     => "$webroot/$dirname",
+    path     => "${webroot}/${dirname}",
     source   => 'https://tt-rss.org/git/tt-rss.git',
     revision => 'master',
     owner    => 'root',
@@ -28,6 +27,8 @@ class ttrss::package {
            "${webroot}/${dirname}/lock" ] :
     ensure  => directory,
     mode    => 0777,
+    #recurse => true,
+    group   => $webserver_group
   }
 
 }

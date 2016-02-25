@@ -5,18 +5,16 @@
 
 class ttrss::service {
 
-  $enable_update_daemon = $ttrss::enable_update_daemon
-
   file { '/etc/systemd/system/ttrss.service':
     ensure  => file,
-    content => template('ttrss/default/ttrss.service.erb'),
+    content => template('ttrss/ttrss.service.erb'),
     mode    => '0644',
     owner   => 'root',
     group   => 'root',
   }
 
-  service { 'tt-rss':
-    ensure  => $enable_update_daemon,
+  service { 'ttrss':
+    ensure  => $ttrss::enable_update_daemon,
     enable  => true,
     require => File['/etc/systemd/system/ttrss.service'],
   }

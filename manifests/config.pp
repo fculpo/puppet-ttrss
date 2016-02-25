@@ -47,14 +47,6 @@ class ttrss::config {
     group   => 'root',
   }
 
-  file { "$webroot/$dirname/database.php":
-    ensure  => file,
-    content => template('ttrss/database.php.erb'),
-    mode    => '0640',
-    owner   => 'root',
-    group   => "$webserver_user",
-  }
-
   package { $php_db_package:
     ensure => 'present',
   }
