@@ -44,7 +44,7 @@ class ttrss::config {
     content => template('ttrss/config.php.erb'),
     mode    => '0644',
     owner   => 'root',
-    group   => 'root',
+    group   => $webserver_user,
   }
 
   package { $php_db_package:

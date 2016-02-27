@@ -7,7 +7,7 @@ class ttrss::package {
   $webroot         = $::ttrss::webroot
   $dirname         = $::ttrss::dirname
   $webserver_user  = $::ttrss::webserver_user
-  $webserver_group = $::ttrss::webserver_user
+  $webserver_group = $::ttrss::webserver_group
 
   vcsrepo { 'ttrss':
     ensure   => present,
@@ -15,7 +15,7 @@ class ttrss::package {
     path     => "${webroot}/${dirname}",
     source   => 'https://tt-rss.org/git/tt-rss.git',
     revision => 'master',
-    owner    => 'root',
+    owner    => $webserver_user,
     group    => $webserver_group
   } ->
 
@@ -26,8 +26,8 @@ class ttrss::package {
            "${webroot}/${dirname}/feed-icons",
            "${webroot}/${dirname}/lock" ] :
     ensure  => directory,
-    mode    => 0777,
-    #recurse => true,
+    mode    => 0775,
+    owner   => $webserver_user,
     group   => $webserver_group
   }
 
