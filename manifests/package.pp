@@ -26,7 +26,7 @@ class ttrss::package {
            "${webroot}/${dirname}/feed-icons",
            "${webroot}/${dirname}/lock" ] :
     ensure  => directory,
-    mode    => 0775,
+    mode    => '0775',
     owner   => $webserver_user,
     group   => $webserver_group
   }
