@@ -5,6 +5,7 @@ class ttrss::params {
   $dbpassword           =  undef
   $dbserver             = '127.0.0.1'
   $dbtype               = 'pgsql'
+  $dbport               = '5432'
   $enable_update_daemon = 'running'
   $single_user_mode     = false
   $ttrssurl             = undef

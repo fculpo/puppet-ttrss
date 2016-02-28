@@ -3,12 +3,12 @@
   // *** Database configuration (important!) ***
   // *******************************************
 
-  define('DB_TYPE', '<%= scope['ttrss::dbtype'] %>'); // or mysql
-  define('DB_HOST', '<%= scope['ttrss::dbserver'] %>');
-  define('DB_USER', '<%= scope['ttrss::dbusername'] %>');
-  define('DB_NAME', '<%= scope['ttrss::dbname'] %>');
-  define('DB_PASS', '<%= scope['ttrss::dbpassword'] %>');
-  define('DB_PORT', ''); // usually 5432 for PostgreSQL, 3306 for MySQL
+  define('DB_TYPE', '<%= scope['ttrss::dbtype'] -%>'); // or mysql
+  define('DB_HOST', '<%= scope['ttrss::dbserver'] -%>');
+  define('DB_USER', '<%= scope['ttrss::dbusername'] -%>');
+  define('DB_NAME', '<%= scope['ttrss::dbname'] -%>');
+  define('DB_PASS', '<%= scope['ttrss::dbpassword'] -%>');
+  define('DB_PORT', '<%= scope['ttrss::dbport'] -%>'); // usually 5432 for PostgreSQL, 3306 for MySQL
 
   define('MYSQL_CHARSET', 'UTF8');
   // Connection charset for MySQL. If you have a legacy database and/or experience
@@ -18,7 +18,7 @@
   // *** Basic settings (important!) ***
   // ***********************************
 
-  define('SELF_URL_PATH', '<%= scope['ttrss::ttrssurl'] %>');
+  define('SELF_URL_PATH', '<%= scope['ttrss::ttrssurl'] -%>');
   // Full URL of your tt-rss installation. This should be set to the
   // location of tt-rss directory, e.g. http://example.org/tt-rss/
   // You need to set this option correctly otherwise several features
@@ -31,7 +31,7 @@
   // Warning: changing this key will make your stored feed passwords impossible
   // to decrypt.
   
-  define('SINGLE_USER_MODE', <%= scope['ttrss::single_user_mode'] %>);
+  define('SINGLE_USER_MODE', <%= scope['ttrss::single_user_mode'] -%>);
   // Operate in single user mode, disables all functionality related to
   // multiple users and authentication. Enabling this assumes you have
   // your tt-rss directory protected by other means (e.g. http auth).

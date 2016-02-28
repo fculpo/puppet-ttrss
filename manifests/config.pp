@@ -10,6 +10,7 @@ class ttrss::config {
   $dbpassword           = $::ttrss::dbpassword
   $dbserver             = $::ttrss::dbserver
   $dbtype               = $::ttrss::dbtype
+  $dbport               = $::ttrss::dbport
   $enable_update_daemon = $::ttrss::enable_update_daemon
   $single_user_mode     = $::ttrss::single_user_mode
   $ttrssurl             = $::ttrss::ttrssurl

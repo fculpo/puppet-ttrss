@@ -9,6 +9,7 @@ class ttrss(
     $dbpassword           = $::ttrss::params::dbpassword,
     $dbserver             = $::ttrss::params::dbserver,
     $dbtype               = $::ttrss::params::dbtype,
+    $dbport               = $::ttrss::params::dbport,
     $enable_update_daemon = $::ttrss::params::enable_update_daemon,
     $single_user_mode     = $::ttrss::params::single_user_mode,
     $ttrssurl             = $::ttrss::params::ttrssurl,
