@@ -17,6 +17,7 @@ class ttrss::config {
   $webroot              = $::ttrss::webroot
   $dirname              = $::ttrss::dirname
   $webserver_user       = $::ttrss::webserver_user
+  $webserver_group      = $::ttrss::webserver_group
 
   if ! $dbname {
     fail('No database name specified.')
@@ -43,9 +44,9 @@ class ttrss::config {
   file { "$webroot/$dirname/config.php":
     ensure  => file,
     content => template('ttrss/config.php.erb'),
-    mode    => '0644',
-    owner   => 'root',
-    group   => $webserver_user,
+    mode    => '0444',
+    owner   => $webserver_user,
+    group   => $webserver_group,
   }
 
   package { $php_db_package:
